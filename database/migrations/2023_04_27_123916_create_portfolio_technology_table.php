@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('portfolio_technology', function (Blueprint $table) {
             $table->unsignedBigInteger('portfolio_id');
-            $table->foreign('portfolio_id')->references('id')->on('portfolios');
+            $table->foreign('portfolio_id')->references('id')->on('portfolios')->onDelete('CASCADE')->onUpdate('CASCADE');
 
             $table->unsignedBigInteger('technology_id');
-            $table->foreign('technology_id')->references('id')->on('technologies');
+            $table->foreign('technology_id')->references('id')->on('technologies')->onDelete('CASCADE')->onUpdate('CASCADE');
         });
     }
 

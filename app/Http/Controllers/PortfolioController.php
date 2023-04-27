@@ -8,6 +8,7 @@ use App\Http\Requests\UpdatePortfolioRequest;
 use App\Models\Portfolio;
 use Illuminate\Support\Str;
 use App\Models\Type;
+use App\Models\Technology;
 
 class PortfolioController extends Controller
 {
@@ -36,7 +37,8 @@ class PortfolioController extends Controller
     public function create()
     {
         $types = Type::all();
-        return view('portfolios.create', compact('types'));
+        $technologies = Technology::all();
+        return view('portfolios.create', compact('types','technologies'));
     }
 
     /**
@@ -52,6 +54,10 @@ class PortfolioController extends Controller
         $data ['slug'] = Str::slug($data['name']);
 
         $portfolio = Portfolio::create($data);
+
+        if(isset($data['technologies'])){
+            $portfolio->technologies()->attach($data['technologies']);
+        }
 
         return to_route('portfolios.show',$portfolio);
     }
@@ -76,7 +82,8 @@ class PortfolioController extends Controller
     public function edit(Portfolio $portfolio)
     {
         $types = Type::all();
-        return view('portfolios.edit', compact('portfolio','types'));
+        $technologies = Technology::all();
+        return view('portfolios.edit', compact('portfolio','types','technologies'));
     }
 
     /**
@@ -96,6 +103,12 @@ class PortfolioController extends Controller
 
         $portfolio->update($data);
 
+        if(isset($data['technologies'])){
+        $portfolio->technologies()->sync($data['technologies']);
+        } else {
+            $portfolio->technologies()->detach();
+        }
+
         return to_route('portfolios.show',$portfolio);
     }
 
@@ -108,6 +121,9 @@ class PortfolioController extends Controller
     public function destroy(Portfolio $portfolio)
     {
         if($portfolio->trashed()){
+
+            $portfolio->technologies()->detach();
+
             $portfolio->forceDelete();
         } else{
             $portfolio->delete();

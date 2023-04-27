@@ -28,7 +28,8 @@ class StorePortfolioRequest extends FormRequest
             'customer'=>'string',
             'description' => 'string',
             'url' =>'url',
-            'type_id' => 'nullable|exists:types,id'
+            'type_id' => 'nullable|exists:types,id',
+            'technologies' => 'exists:technologies,id'
         ];
     }
 }

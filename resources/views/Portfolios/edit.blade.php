@@ -41,6 +41,24 @@
               @enderror
             </div>
             <div class="mb-3">
+                <label for="technologies" class="form-label">tecnologia utilizzata</label>
+                <div class="@error('technologies') is-invalid @enderror">
+                    @foreach($technologies as $tech)
+                    <div class=form-check>
+                        <input name="technologies[]" @checked( in_array($tech->id, old('technologies',$portfolio->technologies->pluck('id')->all()))) class="form-check-input" type="checkbox" value="{{$tech->id}}" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            {{ $tech->name }}
+                        </label>
+                    </div>
+                    @endforeach()
+                </div>
+              @error('technologies')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+              @enderror
+            </div>
+            <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
                 <input type="text" name="description" class="form-control @error('description') is-invalid @enderror" id="description" value="{{ old('description', $portfolio->description)}}">
                 @error('description')
