@@ -8,6 +8,7 @@ use Illuminate\Database\Seeder;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
 use App\Models\Type;
+use App\Models\Technology;
 
 
 class PortfolioSeeder extends Seeder
@@ -21,6 +22,7 @@ class PortfolioSeeder extends Seeder
     {
 
         $types_id = Type::all()->pluck('id')->all();
+        $technologies_id = Technology::all()->pluck('id')->all();
 
         for($i=0; $i<10 ; $i++){
             $project = new Portfolio();
@@ -33,6 +35,8 @@ class PortfolioSeeder extends Seeder
             $project->url = $faker->url();
 
             $project->save();
+
+            $project->technologies()->attach($faker->randomElements($technologies_id, rand(0,3)));
         }
     }
 }

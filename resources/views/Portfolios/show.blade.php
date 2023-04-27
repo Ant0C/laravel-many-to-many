@@ -15,6 +15,13 @@
                        {{$portfolio->type->name}} 
                     </h2>
                     <p>{{ $portfolio->slug }}</p>
+                    <p>
+                        @forelse($portfolio->technologies as $technology)
+                            <span class="badge rounded-pill text-bg-warning">{{ $technology->name }}</span>
+                        @empty
+                            -
+                        @endforelse
+                    </p>
                 </div>
                 <div>
                     <h3>

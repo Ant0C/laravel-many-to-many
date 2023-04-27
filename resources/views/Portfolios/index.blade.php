@@ -26,6 +26,7 @@
                             <th scope="col">Customer</th>
                             <th scope="col">Description</th>
                             <th scope="col">Tipo di lavoro</th>
+                            <th scope="col">Tecnologia utilizzata</th>
                             <th scope="col">Url</th>
                         </tr>
                     </thead>
@@ -36,7 +37,18 @@
                             <td>{{ $item->name }}</a></td>
                             <td>{{ $item->customer }}</td>
                             <td>{{ $item->description }}</td>
-                            <td>{{ $item->type ? $item->type->name: '-' }}</td>
+                            <td>
+                                <span class="badge rounded-pill text-bg-dark">
+                                    {{ $item->type ? $item->type->name: '-' }}
+                                </span>
+                            </td>
+                            <td>
+                                @forelse($item->technologies as $technology)
+                                    <span class="badge rounded-pill text-bg-primary">{{ $technology->name }}</span>
+                                @empty
+                                    -
+                                @endforelse
+                            </td>
                             <td>{{ $item->url }}</td>
                             <td>
                                 <form action="{{route('portfolios.destroy',$item)}}" method="POST">

@@ -16,10 +16,14 @@ class Portfolio extends Model
         'description',
         'slug',
         'url',
-        'type_id'
+        'type_id',
     ];
 
     public function type(){
         return $this->belongsto(Type::class);
+    }
+
+    public function technologies(){
+        return $this->belongsToMany(Technology::class);
     }
 }
